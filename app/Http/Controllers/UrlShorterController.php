@@ -42,4 +42,11 @@ class UrlShorterController extends Controller
         return redirect($url);
     }
 
+    public function destroy($id)
+    {
+        Url::find($id)->delete();
+
+        return redirect()->back();
+    }
+
 }
