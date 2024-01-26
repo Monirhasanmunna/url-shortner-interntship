@@ -6,7 +6,6 @@
     <MainLayout>
         <!-- Breadcrumb -->
         <div class="flex items-center justify-between">
-
             <div>
                 <h3 class="dark:text-gray-100">Dashboard</h3>
             </div>

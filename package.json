@@ -19,6 +19,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "lodash": "^4.17.21",
         "preline": "^2.0.2"
     }
 }

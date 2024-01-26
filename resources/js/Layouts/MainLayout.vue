@@ -4,9 +4,11 @@ import Header from '@/Layouts/Header.vue'
 import Sidebar from '@/Layouts/Sidebar.vue';
 import { onMounted } from 'vue';
 
-  onMounted(() => {
-    HSStaticMethods.autoInit();
-  });
+onMounted(() => {
+  setTimeout(() => {
+    window.HSStaticMethods.autoInit();
+  }, 100)
+});
 </script>
 
 <template>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UrlShorterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,8 +31,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-Route::resource('service',ServiceController::class)->middleware(['auth', 'verified']);
+Route::group(['as' => 'url.', 'middleware' => ['auth', 'verified']], function(){
+    Route::get('/', [UrlShorterController::class, 'index'])->name('index');
+    Route::post('/store', [UrlShorterController::class, 'store'])->name('store');
+    Route::get('/{shorterlink}', [UrlShorterController::class, 'shorterLinkShow'])->name('show')->middleware('spamGuard');
+    Route::delete('/delete/{id}', [UrlShorterController::class, 'destroy'])->name('destroy');
+});
 
 
 require __DIR__.'/auth.php';
