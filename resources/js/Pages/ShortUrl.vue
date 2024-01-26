@@ -33,6 +33,7 @@
 </script>
 
 <template>
+    <Head title="Url List" />
     <MainLayout>
         <!-- Breadcrumb -->
         <div class="flex items-center justify-between">

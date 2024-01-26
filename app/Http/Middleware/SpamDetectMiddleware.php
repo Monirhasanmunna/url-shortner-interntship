@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Configuration;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,6 +18,7 @@ class SpamDetectMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $config = Configuration::first();
         $ip = $request->ip();
         $url = $request->fullUrl();
         $key = "click_count:$ip:$url";
@@ -30,8 +32,8 @@ class SpamDetectMiddleware
         Cache::put($key, $clickCount, now()->addMinutes(1));
 
         // Check if the click count exceeds the limit
-        $limit = 3;
-        $blockDuration = 5; // in minutes
+        $limit = $config->click_limit;
+        $blockDuration = $config->block_duration; // in minutes
 
         if($clickCount > $limit){
             // Block the IP by storing a flag in cache

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ConfgurationController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UrlShorterController;
@@ -27,15 +29,25 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::group(['as' => 'url.', 'middleware' => ['auth', 'verified']], function(){
-    Route::get('/', [UrlShorterController::class, 'index'])->name('index');
-    Route::post('/store', [UrlShorterController::class, 'store'])->name('store');
-    Route::get('/{shorterlink}', [UrlShorterController::class, 'shorterLinkShow'])->name('show')->middleware('spamGuard');
-    Route::delete('/delete/{id}', [UrlShorterController::class, 'destroy'])->name('destroy');
+Route::group(['middleware' => ['auth', 'verified']], function(){
+
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+    Route::group(['as' => 'url.'], function(){
+        Route::get('/', [UrlShorterController::class, 'index'])->name('index');
+        Route::post('/store', [UrlShorterController::class, 'store'])->name('store');
+        Route::get('/short-link/{shorterlink}', [UrlShorterController::class, 'shorterLinkShow'])->name('show')->middleware('spamGuard');
+        Route::delete('/delete/{id}', [UrlShorterController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['as' => 'config.', 'prefix' => 'config'], function(){
+        Route::get('/',[ConfgurationController::class,'index'])->name('index');
+        Route::post('/store',[ConfgurationController::class,'update'])->name('store');
+    });
 });
 
 
