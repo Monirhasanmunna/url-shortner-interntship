@@ -2,7 +2,9 @@
     import MainLayout from '@/Layouts/MainLayout.vue';
     import {Link,Head, useForm, router} from '@inertiajs/vue3'
     import {ref, reactive, watch} from 'vue';
-    import {debounce} from 'lodash'
+    import {debounce} from 'lodash';
+    import { HSOverlay } from 'preline';
+    import axios from 'axios';
 
     defineProps({
         urls : {Object}
@@ -23,12 +25,21 @@
         'main_url' : ''
     });
 
+    const modalFunction = () => {
+        HSOverlay.close('#hs-slide-down-animation-modal');
+    }
+
     const formSubmit = () => {
         form.post(route('url.store'), {
             preserveScroll: true,
-            preserveState: true
+            preserveState: true, 
+            onSuccess: ()=> {
+                modalFunction(),
+                form.reset('main_url')
+            }
         });
     }
+
 
 </script>
 
