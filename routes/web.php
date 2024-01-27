@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
     Route::group(['as' => 'url.'], function(){
         Route::get('/', [UrlShorterController::class, 'index'])->name('index');
         Route::post('/store', [UrlShorterController::class, 'store'])->name('store');
-        Route::get('/link/{shorterlink}', [UrlShorterController::class, 'shorterLinkShow'])->name('show')->middleware('spamGuard');
+        Route::get('/l/{shorterlink}', [UrlShorterController::class, 'shorterLinkShow'])->name('show')->middleware('spamGuard');
         Route::delete('/delete/{id}', [UrlShorterController::class, 'destroy'])->name('destroy');
     });
 
