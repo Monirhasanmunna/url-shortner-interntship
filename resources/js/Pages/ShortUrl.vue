@@ -4,8 +4,7 @@
     import {ref, reactive, watch} from 'vue';
     import {debounce} from 'lodash';
     import { HSOverlay } from 'preline';
-    import axios from 'axios';
-
+ 
     defineProps({
         urls : {Object}
     });
@@ -25,16 +24,14 @@
         'main_url' : ''
     });
 
-    const modalFunction = () => {
-        HSOverlay.close('#hs-slide-down-animation-modal');
-    }
+
 
     const formSubmit = () => {
         form.post(route('url.store'), {
             preserveScroll: true,
             preserveState: true, 
             onSuccess: ()=> {
-                modalFunction(),
+                HSOverlay.close('#hs-slide-down-animation-modal'),
                 form.reset('main_url')
             }
         });
@@ -124,7 +121,7 @@
                                         <tr v-for="(url, index) in urls.data" :key="index">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-400"> {{ index+1 }}</td>
                                             
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-500 font-medium dark:text-green-400">
                                                 <a target="__blank" :href="route('url.show', url.short_url)">{{ route('url.show', url.short_url) }}</a></td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
